@@ -1,7 +1,17 @@
-<h1> Welcome,<%= current_user.username %> </h1>
-<h2> Tweets </h2>
+# <h1> Welcome,<%= current_user.username %> </h1>
+# <h2> Tweets </h2>
 
 
+# <% @tweets.each do |tweet| %>
+#     <li> <%= tweet.content %></li>
+#     <% end %>
+
+<h1>Welcome,<%= current_user.username %></h1>
+<h2>Tweets</h2>
+<ul>
 <% @tweets.each do |tweet| %>
-    <li> <%= tweet.content %></li>
-    <% end %>
+<li><%= tweet.content %></li>
+<%end%>
+</ul>
+
+  
