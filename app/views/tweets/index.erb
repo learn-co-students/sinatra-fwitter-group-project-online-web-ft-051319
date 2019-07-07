@@ -2,4 +2,9 @@
 
 <br>
 
+  <%@tweets.each do |tweet|%>
+    <% user = User.find(tweet.user_id) %>
+    <strong><%=user.username%>: </strong><%=tweet.content%><br><br>
+  <%end%>
+
 <a href='/logout'>Log Out</a>

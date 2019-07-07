@@ -2,12 +2,21 @@ class TweetsController < ApplicationController
 
 #CREATE  
   get '/tweets/new' do
-    erb :'/tweets/new'
+    if is_logged_in?
+      erb :'/tweets/new'
+    else
+      redirect '/login'
+    end
   end
   
   post '/tweets' do
-    @tweet = Tweet.create(params[:content])
-    redirect "/tweets/#{@tweet.id}"
+    if params[:content] == ""
+      redirect '/tweets/new'
+    else
+      @tweet = Tweet.create(content: params[:content])
+      current_user.tweets << @tweet
+      redirect "/tweets/#{@tweet.id}"
+    end
   end
 
 #READ
@@ -23,16 +32,32 @@ class TweetsController < ApplicationController
 
   get '/tweets/:id' do
     @tweet = Tweet.find(params[:id])
-    erb :'/tweets/show'
+    
+    if is_logged_in?
+      erb :'/tweets/show'
+    else
+      redirect '/login'
+    end
   end
 
 #UPDATE
   get '/tweets/:id/edit' do
-    
+    @tweet = Tweet.find(params[:id])
+    if is_logged_in?
+      erb :'/tweets/edit'
+    else
+      redirect '/login'
+    end
   end
   
   patch '/tweets/:id' do
-    
+    @tweet = Tweet.find(params[:id])
+    if params[:content] == ""
+      redirect "/tweets/#{@tweet.id}/edit"
+    else
+      @tweet.content = params[:content]
+      current_user.tweets << @tweet
+    end
   end
 
 #DELETE
