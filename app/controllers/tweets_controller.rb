@@ -42,9 +42,12 @@ class TweetsController < ApplicationController
 
 #UPDATE
   get '/tweets/:id/edit' do
-    @tweet = Tweet.find(params[:id])
     if is_logged_in?
-      erb :'/tweets/edit'
+      if @tweet = current_user.tweets.find_by(params[:id])
+        erb :'/tweets/edit'
+      else
+        redirect '/tweets'
+      end
     else
       redirect '/login'
     end
@@ -57,14 +60,22 @@ class TweetsController < ApplicationController
     else
       @tweet.content = params[:content]
       current_user.tweets << @tweet
+      redirect "/tweets/#{@tweet.id}"
     end
   end
 
 #DELETE
   delete '/tweets/:id' do
-    @tweet = Tweet.find(params[:id])
-    @tweet.delete    
-    redirect '/tweets'
+    if is_logged_in?
+      if @tweet = current_user.tweets.find_by(params[:id])
+        @tweet.delete
+        redirect '/tweets'
+      else
+        redirect '/tweets'
+      end
+    else
+      redirect '/login'
+    end
   end
   
 end
