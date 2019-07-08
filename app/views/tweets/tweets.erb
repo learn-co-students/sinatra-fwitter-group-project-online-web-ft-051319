@@ -1,0 +1,9 @@
+<h1>Welcome,</h1>
+<% @tweets.each do |tweet| %>
+<p><%= "#{tweet.content}"%></p>
+<%end%>
+
+<%# <form action="/tweets/new" method="GET">
+Create a new tweet?
+    <input type="create" name="create" value="create">
+</form> %>
