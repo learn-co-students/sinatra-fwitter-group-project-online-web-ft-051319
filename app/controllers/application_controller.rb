@@ -109,16 +109,13 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/tweets/:id/edit' do 
-    # binding.pry
-    # @user = User.find(session[:user_id])
-    # @tweet = Tweet.find(params[:id])
-    # if @user && @user.tweets.include?(@tweet)
-    #   erb :'tweets/edit_tweet'
-    # end
-    @tweet = Tweet.find(params[:id])
     if session[:user_id]
-      erb :'tweets/edit_tweet'
-    else
+      @tweet = Tweet.find(params[:id])
+      @user = User.find(session[:user_id])
+      if @tweet && @tweet.user == @user
+        erb :'tweets/edit_tweet'
+      end
+    else 
       redirect "/login"
     end
   end
