@@ -1,0 +1,16 @@
+<h3>Welcome, <%= @user.username %></h3>
+<h4>Tweets</h4>
+<% @tweets.each do |tweet| %>
+    <%user = User.find(tweet.user_id)%>
+    <%if tweet.user_id == current_user.id %>
+        <h5><%= current_user.username %>:</h5> <%= tweet.content %> <button onclick="window.location.href='/tweets/<%=tweet.id%>';">view tweet</button>
+    <%else%>
+        <h5><%= user.username %>:</h5> <%= tweet.content %>
+    <%end%>
+<br>
+<% end %>
+<br>
+<br>
+<button onclick="window.location.href= '/tweets/new';">Create a new tweet</button><br>
+<br>
+<button onclick="window.location.href='/logout';">Log Out</button>
