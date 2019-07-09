@@ -61,23 +61,28 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/logout' do 
-    if session[:user_id]
-      erb :'users/logout'
-    else
-      redirect '/'
-    end
+    # if session[:user_id]
+    #   session.clear
+    #   redirect "/login"
+    # else
+    #   redirect '/'
+    # end
+
+      session.clear
+      redirect "/login"
   end
 
-  post '/logout' do 
-    session.clear
-    redirect "/login"
-  end
+  # post '/logout' do 
+  #   session.clear
+  #   redirect "/login"
+  # end
 
   get '/tweets/new' do 
     if session[:user_id]
       erb :'tweets/new'
+    else
+      redirect "/login"
     end
-    # erb :'tweets/new'
   end
 
   post '/tweets' do 
@@ -151,6 +156,11 @@ class ApplicationController < Sinatra::Base
     # if @user && @user.tweets.include?(@tweet)
     #   erb :'tweets/edit_tweet'
     # end
+  end
+
+  get '/users/:slug' do
+    @user = User.find_by_slug(params[:slug])
+    erb :'users/show'
   end
 
 end
