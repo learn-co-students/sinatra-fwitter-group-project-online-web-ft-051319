@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   end
   
   post '/signup' do
+    user = user.new(username: params[:username], password: params[:password], email: params[:email])
     redirect '/tweets'
   end
   
